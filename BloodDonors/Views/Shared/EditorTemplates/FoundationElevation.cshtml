@@ -1,0 +1,21 @@
+﻿@model BloodDonors.Models.FoundationElevation
+
+@Html.LabelFor(x => x, "Elevated")
+@if (Model == BloodDonors.Models.FoundationElevation.Elevated)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.FoundationElevation.Elevated, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.FoundationElevation.Elevated);
+}
+
+@Html.LabelFor(x => x, "Grade")
+@if (Model == BloodDonors.Models.FoundationElevation.Grade)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.FoundationElevation.Grade, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.FoundationElevation.Grade);
+}

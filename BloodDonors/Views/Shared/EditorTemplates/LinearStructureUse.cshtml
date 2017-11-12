@@ -1,0 +1,31 @@
+﻿@model BloodDonors.Models.LinearStructureUse
+
+@Html.LabelFor(x => x, "Pipeline")
+@if (Model == BloodDonors.Models.LinearStructureUse.Pipeline)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LinearStructureUse.Pipeline, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LinearStructureUse.Pipeline);
+}
+@Html.LabelFor(x => x, "Road")
+@if (Model == BloodDonors.Models.LinearStructureUse.Road)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LinearStructureUse.Road, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LinearStructureUse.Road);
+}
+@Html.LabelFor(x => x, "Telecom")
+@if (Model == BloodDonors.Models.LinearStructureUse.Telecom)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LinearStructureUse.Telecom, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LinearStructureUse.Telecom);
+}
+
+

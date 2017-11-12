@@ -1,0 +1,263 @@
+@model IEnumerable<BloodDonors.Models.Assessment>
+
+
+@{
+    ViewBag.Title = "PFF DSS";
+}
+<script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+
+
+@section featured {
+<section class="featured">
+    <div class="content-wrapper">
+        <hgroup class="title">
+            <h1>@ViewBag.Title.</h1>
+            <h2>@ViewBag.Message</h2>
+        </hgroup>
+        <p>
+
+
+        </p>
+    </div>
+</section>
+}
+
+
+
+<div style="background-color:transparent;">
+    <div id="HomeContentMain">
+        <table align="center" style="border:10px; border-collapse: separate; border-spacing: 10px;">
+
+            <tr style="padding:10px">
+
+                <td width="33%" style="background:rgba(255, 255, 255, 0.5); vertical-align:top">
+                    <table >
+                        <tr>
+                            <td>
+                                <h2>About the Project</h2>
+                                <br />
+                                <div id="HomeIntroText">
+                                    The Permafrost Foundation Decision Support System is a software tool aimed at helping engineers determine the pros and cons of different foundation systems they can use in sites in the arctic.
+                                <br /><br />
+                                    Sponsored by the Strategic Environmental Research and Development Program (SERDP), the PFFDSS was developed by a team of researchers from government, academia, and industry.  
+
+                                <br /><br />
+                                    The PFFDSS contains two main sections, Arctic Foundations 101, and Assessments.  
+                                    
+                                <br /> <br />
+
+                                    Arctic Foundations 101 is a collection of educational resources that describe the process of engineering foundations in the arctic.  The assessments section allows you to assess sites of interest to determine how well foundations types may work there. 
+                                <br /><br />
+                                    Please feel free to use the PFFDSS, and contact us if you have any questions.
+                                <br />   <br />
+
+                                    
+                                </div>
+                                <div id="LogoBand" ;>
+                                    <h3>Project Team</h3>
+                                    <p style="text-align:center">
+                                        <a href='@Url.Action("Index", "Wizard")'>
+                                            <img src='@Url.Content("~/Images/CRREL Logo.JPG")' id="LogoImg" />
+                                        </a>
+
+                                        <a href='@Url.Action("Index", "Wizard")'>
+                                            <img src='@Url.Content("~/Images/UAFLogo.png")' id="LogoImg" />
+                                        </a>
+                                        <a href='@Url.Action("Index", "Wizard")'>
+                                            <img src='@Url.Content("~/Images/AtkinsLogo.gif")' id="LogoImg" style="height:30px;" />
+                                        </a>
+                                        <a href='@Url.Action("Index", "Wizard")'>
+                                            <img src='@Url.Content("~/Images/CCHRC.png")' id="LogoImg" />
+                                        </a>
+                                        <a href='@Url.Action("Index", "Wizard")'>
+                                            <img src='@Url.Content("~/Images/UC.png")' id="LogoImg" />
+                                        </a>
+                                        <br />
+                                        <a href='@Url.Action("Index", "Wizard")'>
+                                            <img src='@Url.Content("~/Images/ERDC.png")' id="LogoImg" />
+                                        </a>
+                                        <a href='@Url.Action("Index", "Wizard")'>
+                                            <img src='@Url.Content("~/Images/ERDC.jpg")' id="LogoImg" />
+                                        </a>
+                                    </p>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+
+                <td width="33%" style="background:rgba(255, 255, 255, 0.5); padding:10px; vertical-align:top">
+                    <table>
+                        <tr>
+                            <td>
+                                <h2>Arctic Foundations 101</h2>
+                            </td>
+                        </tr>
+                        <tr style="background-color:transparent;">
+                            <td style="background-color:transparent;">
+                                <div class="row-fluid" id="AF101Story">
+                                    <h3>Benefits of Raised Foundations</h3>
+                                    <img src='@Url.Content("~/Images/House_on_piles.jpg")' id="AF101Img" />
+                                    When building on permafrost, heat flux is the enemy.  Raising your building off the ground reducing heat flux from your internal climate control system into the ground drastically.  More...
+
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr style="background-color:transparent;">
+                            <td style="background-color:transparent;">
+                                <div class="row-fluid" id="AF101Story">
+                                    <h3>The Contributions of Pewe</h3>
+                                    <img src='@Url.Content("~/Images/Pewe.PNG")' id="AF101Img" />
+                                    Troy Lewis Pewe (1918-1999) was an eminent geologist and contributed greatly to the field of Arctic engineering.  The PFFDSS leans on his detailed and seminal data collection efforts in the regions around Fairbanks.
+
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr style="background-color:transparent;">
+                            <td style="background-color:transparent;">
+                                <div class="row-fluid" id="AF101Story">
+                                    <h3>Collecting Borehole Data</h3>
+                                    <img src='@Url.Content("~/Images/PermafrostDrilling1.jpg")' id="AF101Img" />
+                                    It's safe to say that before you build a foundation in the arctic - any foundation - it's best to collect borehole data.   The process for borehole data collection is described in excellent detail by PFFDSS project team member...
+
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+                <td width="33%" style="background:rgba(255, 255, 255, 0.5); vertical-align:top">
+                    <table class="HomeSubTable" style="background-color:transparent">
+                        <tr>
+                            <td>
+                                <h2>Your Assessments</h2>
+                            </td>
+                        </tr>
+
+                        <tr style="align-content:center; background-color:transparent;">
+                            <td style="align-content:center;">
+                                <div id="StartButton">
+                                    <h3><a href='@Url.Action("Index", "Wizard/Open/0")'>Start a new Assessment</a></h3>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h3>Recent Assessments</h3>
+                            </td>
+
+                        </tr>
+                        <tr style="height:400px; vertical-align:top; background-color:transparent;">
+                            <td>
+                                @{
+                                    int counter = 0;
+                                    if (Model != null)
+                                    {
+                                        foreach (var Assessment in Model.OrderByDescending(Assessment => Assessment.LastModifiedDate))
+                                        {
+
+                                            @Html.Raw("<div class=\"row-fluid\" id=\"RecentAssessment\">")
+                                            @Html.Raw("<h3>")
+                                            @Html.ActionLink(Assessment.AssessmentName, "../Wizard/Open/", new { id = Assessment.AssessmentID })
+                                            @Html.Raw("</h3>")
+                                            @Html.ActionLink("Delete", "../Home/DeleteAssessment/", new { id = Assessment.AssessmentID })
+
+                                            @Html.Raw("</div>")
+                                            if (counter > 0 && counter % 3 == 0)
+                                            {
+
+                                            }
+
+                                            counter++;
+
+                                            if (counter >= 9)
+                                            {
+                                                break;
+                                            }
+                                        }
+                                    }
+
+
+
+                                }
+
+                            </td>
+
+                        </tr>
+                    </table>
+
+            </tr>
+
+
+
+        </table>
+    </div>
+       
+
+
+
+
+    
+
+</div>
+
+
+
+
+
+
+
+
+@*<div id="mapDivLeft">
+
+    <div id="searchBox">
+        Enter your location @Html.TextBox("Location")
+        <input id="search" type="submit" value="Search"/>
+    </div>
+
+    <div id="theMap6" style="position:relative; background-color:aqua; left:100px; width :1000px">  <!-- Empty div for the map; the map is loaded by the JS in the Donors.js script-->
+    </div>
+
+</div>*@
+
+@*<div id="mapDivLeft2">
+
+    <div id="searchBox">
+        Enter your location @Html.TextBox("Location")
+        <input id="search" type="submit" value="Search" />
+    </div>
+
+    <div id="theMap6" style="position:absolute; width:600px">
+        <!-- Empty div for the map; the map is loaded by the JS in the Donors.js script-->
+    </div>
+    <div id="theMap6" style="position:relative; width:1200px">
+        <!-- Empty div for the map; the map is loaded by the JS in the Donors.js script-->
+    </div>
+
+</div>*@
+
+
+@*<div id="mapDivRight">
+    <div id="dinnerList"></div>
+</div>*@
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+       BloodDonors.LoadMap();
+    });
+
+    $("#search").click(function (evt) {
+        var where = jQuery.trim($("#Location").val());
+        if (where.length < 1)
+            return;
+        BloodDonors.FindAddress(where);
+    });
+
+
+</script>
+

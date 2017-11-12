@@ -1,0 +1,33 @@
+﻿@model BloodDonors.Models.ExistingStructureType
+
+
+@Html.LabelFor(x => x, "Light")
+@if (Model == BloodDonors.Models.ExistingStructureType.Light)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructureType.Light, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructureType.Light);
+}
+
+@Html.LabelFor(x => x, "Heavy")
+@if (Model == BloodDonors.Models.ExistingStructureType.Heavy)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructureType.Heavy, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructureType.Heavy);
+}
+
+
+@Html.LabelFor(x => x, "Linear")
+@if (Model == BloodDonors.Models.ExistingStructureType.Linear)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructureType.Linear, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructureType.Linear);
+}

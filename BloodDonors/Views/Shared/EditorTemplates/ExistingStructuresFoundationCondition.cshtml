@@ -1,0 +1,31 @@
+﻿@model BloodDonors.Models.ExistingStructuresFoundationCondition
+
+@Html.LabelFor(x => x, "Failed")
+@if (Model == BloodDonors.Models.ExistingStructuresFoundationCondition.Failed)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructuresFoundationCondition.Failed, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructuresFoundationCondition.Failed);
+}
+
+@Html.LabelFor(x => x, "Failing")
+@if (Model == BloodDonors.Models.ExistingStructuresFoundationCondition.Failing)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructuresFoundationCondition.Failing, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructuresFoundationCondition.Failing);
+}
+
+@Html.LabelFor(x => x, "Good")
+@if (Model == BloodDonors.Models.ExistingStructuresFoundationCondition.Good)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructuresFoundationCondition.Good, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructuresFoundationCondition.Good);
+}

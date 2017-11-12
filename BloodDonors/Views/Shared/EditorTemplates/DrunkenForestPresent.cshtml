@@ -1,0 +1,20 @@
+﻿@model BloodDonors.Models.DrunkenForestPresent
+
+@Html.LabelFor(x => x, "Drunken Forest Present")
+@if (Model == BloodDonors.Models.DrunkenForestPresent.DrunkenForestPresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.DrunkenForestPresent.DrunkenForestPresent, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.DrunkenForestPresent.DrunkenForestPresent);
+}
+@Html.LabelFor(x => x, "Drunken Forest Not Present")
+@if (Model == BloodDonors.Models.DrunkenForestPresent.DrunkenForestNotPresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.DrunkenForestPresent.DrunkenForestNotPresent, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.DrunkenForestPresent.DrunkenForestNotPresent);
+}

@@ -1,0 +1,23 @@
+﻿@model BloodDonors.Models.StreamsPresent
+
+
+@Html.LabelFor(x => x, "Streams Present")
+@if (Model == BloodDonors.Models.StreamsPresent.StreamsPresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StreamsPresent.StreamsPresent, new { @checked = "checked" });
+}
+else
+{
+@Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StreamsPresent.StreamsPresent);
+}
+
+@Html.LabelFor(x => x, "Streams Not Present")
+@if (Model == BloodDonors.Models.StreamsPresent.StreamsNotPresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StreamsPresent.StreamsNotPresent, new { @checked = "checked" });
+}
+else
+{
+@Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StreamsPresent.StreamsNotPresent);
+}
+

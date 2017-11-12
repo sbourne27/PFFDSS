@@ -1,0 +1,61 @@
+﻿@model BloodDonors.Models.VegetationType
+
+@Html.LabelFor(x => x, "Low Elevation Black Spruce: Valleys or Side Slopes; typically means high ice content fine grained permafrost, pooyl drained.")
+@if (Model == BloodDonors.Models.VegetationType.LowElevationBlackSpruce)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.LowElevationBlackSpruce, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.LowElevationBlackSpruce);
+}
+
+@Html.LabelFor(x => x, "High Elevation Black Spruce: Ridge tops; typically means ice-poor or thawed ground with shallow weathered or intact bedrock.")
+@if (Model == BloodDonors.Models.VegetationType.HighElevationBlackSpruce)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.HighElevationBlackSpruce, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.HighElevationBlackSpruce);
+}
+
+@Html.LabelFor(x => x, "White Spruce: Can be ice-rich or mixed ice-poor or thawed terrain.")
+@if (Model == BloodDonors.Models.VegetationType.WhiteSpruce)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.WhiteSpruce, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.WhiteSpruce);
+}
+
+@Html.LabelFor(x => x, "Deciduous (high or low): generally indicates thawed or thawing conditions, possibly permafrost at depth.")
+@if (Model == BloodDonors.Models.VegetationType.Deciduous)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.Deciduous, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.Deciduous);
+}
+
+@Html.LabelFor(x => x, "Tussock: typically means ice-rich permafrost.")
+@if (Model == BloodDonors.Models.VegetationType.Tussock)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.Tussock, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.Tussock);
+}
+
+@Html.LabelFor(x => x, "Early Succession Boreal Forest: Willows, alders, deciduous trees; typically means thawed conditions.")
+@if (Model == BloodDonors.Models.VegetationType.EarlySuccessionBorealForest)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.EarlySuccessionBorealForest, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.VegetationType.EarlySuccessionBorealForest);
+}

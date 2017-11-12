@@ -1,0 +1,29 @@
+﻿@model BloodDonors.Models.LightStructureUse
+
+@Html.LabelFor(x => x, "Offices")
+@if (Model == BloodDonors.Models.LightStructureUse.Offices)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LightStructureUse.Offices, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LightStructureUse.Offices);
+}
+@Html.LabelFor(x => x, "Residential")
+@if (Model == BloodDonors.Models.LightStructureUse.Residential)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LightStructureUse.Residential, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LightStructureUse.Residential);
+}
+@Html.LabelFor(x => x, "Warehouse")
+@if (Model == BloodDonors.Models.LightStructureUse.Warehouse)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LightStructureUse.Warehouse, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LightStructureUse.Warehouse);
+}

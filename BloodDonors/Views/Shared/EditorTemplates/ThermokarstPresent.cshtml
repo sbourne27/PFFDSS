@@ -1,0 +1,21 @@
+﻿@model BloodDonors.Models.ThermoKarstPresent
+
+@Html.LabelFor(x => x, "Thermokarst Present")
+@if (Model == BloodDonors.Models.ThermoKarstPresent.ThermoKarstPresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ThermoKarstPresent.ThermoKarstPresent, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ThermoKarstPresent.ThermoKarstPresent);
+}
+
+@Html.LabelFor(x => x, "Thermokarst Not Present")
+@if (Model == BloodDonors.Models.ThermoKarstPresent.NoThermoKarstPresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ThermoKarstPresent.NoThermoKarstPresent, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ThermoKarstPresent.NoThermoKarstPresent);
+}

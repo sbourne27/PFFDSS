@@ -1,0 +1,21 @@
+﻿@model BloodDonors.Models.ExistingStructuresPresent
+
+@Html.LabelFor(x => x, "Existing Structures Present")
+@if (Model == BloodDonors.Models.ExistingStructuresPresent.ExistingStructuresPresentPresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructuresPresent.ExistingStructuresPresentPresent, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructuresPresent.ExistingStructuresPresentPresent);
+}
+
+@Html.LabelFor(x => x, "Existing Structures Not Present")
+@if (Model == BloodDonors.Models.ExistingStructuresPresent.ExistingStructuresPresentNotPresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructuresPresent.ExistingStructuresPresentNotPresent, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ExistingStructuresPresent.ExistingStructuresPresentNotPresent);
+}

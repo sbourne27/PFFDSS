@@ -1,0 +1,21 @@
+﻿@model BloodDonors.Models.ObservedIceWedges
+
+@Html.LabelFor(x => x, "Observed Ice Wedges")
+@if (Model == BloodDonors.Models.ObservedIceWedges.IceWedges)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ObservedIceWedges.IceWedges, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ObservedIceWedges.IceWedges);
+}
+
+@Html.LabelFor(x => x, "No Observed Ice Wedges")
+@if (Model == BloodDonors.Models.ObservedIceWedges.NoIceWedges)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ObservedIceWedges.NoIceWedges, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.ObservedIceWedges.NoIceWedges);
+}

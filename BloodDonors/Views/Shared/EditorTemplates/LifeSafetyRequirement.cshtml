@@ -1,0 +1,31 @@
+﻿@model BloodDonors.Models.LifeSafetyRequirement
+
+@Html.LabelFor(x => x, "High")
+@if (Model == BloodDonors.Models.LifeSafetyRequirement.High)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LifeSafetyRequirement.High, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LifeSafetyRequirement.High);
+}
+
+@Html.LabelFor(x => x, "Med")
+@if (Model == BloodDonors.Models.LifeSafetyRequirement.Med)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LifeSafetyRequirement.Med, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LifeSafetyRequirement.Med);
+}
+
+@Html.LabelFor(x => x, "Low")
+@if (Model == BloodDonors.Models.LifeSafetyRequirement.Low)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LifeSafetyRequirement.Low, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.LifeSafetyRequirement.Low);
+}

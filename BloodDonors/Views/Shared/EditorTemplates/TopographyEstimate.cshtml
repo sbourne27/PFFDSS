@@ -1,0 +1,31 @@
+﻿@model BloodDonors.Models.TopographyEstimate
+
+@Html.LabelFor(x => x, "Flat")
+@if (Model == BloodDonors.Models.TopographyEstimate.Flat)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.TopographyEstimate.Flat, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.TopographyEstimate.Flat);
+}
+
+@Html.LabelFor(x => x, "Moderate")
+@if (Model == BloodDonors.Models.TopographyEstimate.Moderate)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.TopographyEstimate.Moderate, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.TopographyEstimate.Moderate);
+}
+
+@Html.LabelFor(x => x, "Steep")
+@if (Model == BloodDonors.Models.TopographyEstimate.Steep)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.TopographyEstimate.Steep, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.TopographyEstimate.Steep);
+}

@@ -1,0 +1,20 @@
+﻿@model BloodDonors.Models.StructureHeated
+
+@Html.LabelFor(x => x, "Heated Structure")
+@if (Model == BloodDonors.Models.StructureHeated.Heated)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureHeated.Heated, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureHeated.Heated);
+}
+@Html.LabelFor(x => x, "Structure Not Heated")
+@if (Model == BloodDonors.Models.StructureHeated.NotHeated)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureHeated.NotHeated, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureHeated.NotHeated);
+}

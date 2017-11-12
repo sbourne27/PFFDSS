@@ -1,0 +1,21 @@
+﻿@model BloodDonors.Models.BlackSprucePresent
+
+@Html.LabelFor(x => x, "Black Spruce Present")
+@if (Model == BloodDonors.Models.BlackSprucePresent.BlackSprucePresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.BlackSprucePresent.BlackSprucePresent, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.BlackSprucePresent.BlackSprucePresent);
+}
+
+@Html.LabelFor(x => x, "Black Spruce Not Present")
+@if (Model == BloodDonors.Models.BlackSprucePresent.BlackSpruceNotPresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.BlackSprucePresent.BlackSpruceNotPresent, new { @checked = "checked" });
+}
+else
+{
+@Html.RadioButtonFor(x => x, (int)BloodDonors.Models.BlackSprucePresent.BlackSpruceNotPresent);
+}

@@ -1,0 +1,23 @@
+﻿@model BloodDonors.Models.Donor
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Please correct the errors and try again.")
+     <fieldset>
+
+     <table>
+        <td><div id="DonorsDiv" style="width:1000px">
+            @Html.EditorForModel()
+            <p>
+                <input type="submit" value="Save" />
+            </p>
+        </div> </td>
+        <td> <div id="theMap6" style="position:relative; width:400px; height:400px;"> @Html.Partial("_Map")</div> </td>
+     </table>
+      @Html.ActionLink("Back to List", "Index")
+
+        
+    </fieldset>
+   
+}

@@ -1,0 +1,1299 @@
+﻿
+
+
+@using System.Globalization;
+
+@model BloodDonors.Models.Assessment
+
+@*<script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>*@
+<script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/ve/?v=1.4"></script>
+
+<script src="http://openlayers.org/en/v3.14.2/build/ol.js"></script>
+<link rel="stylesheet" href="http://openlayers.org/en/v3.4.0/css/ol.css" type="text/css">
+@*<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>;*@
+
+<div id="ToolTip"></div>
+
+@Html.Hidden("test67")
+
+
+<script type="text/javascript">
+
+    var serviceUrl = 'http://services2.arcgis.com/sFujhckYoxsqnpfe/arcgis/rest/services/PFFDSS_Base/FeatureServer/';
+
+    //var TestToken = '6oSjl7cGwmvcMg0NLX75GoqiLJ-kiw6rp-BQD3z36JjctZ2cBt3n559lJu4iQJJg2gV2ixjE8VJ4ynrn1e_idTZKJAP3cLlAE7PXOq1C8ZWFxbJHi7SLUfvu6Ii1BVmsXAOtVM2BEElfna3NiKyEfg..';
+
+    //var TestToken = @ViewBag.EsriToken;
+
+    //debugger;
+
+    //var serviceUrl = 'http://services.arcgis.com/rOo16HdIMeOBI4Mb/arcgis/rest/services/PDX_Pedestrian_Districts/FeatureServer/';
+
+    //var serviceUrl = 'http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Petroleum/KSFields/FeatureServer';
+
+    var layer = '3';
+    var esrijsonFormat = new ol.format.EsriJSON();
+
+    var styleCache = {
+        'I': new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(225, 225, 225, 255)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(0, 0, 0, 255)',
+                width: 0.4
+            })
+        }),
+        'II': new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 0, 0, 255)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(110, 110, 110, 255)',
+                width: 0.4
+            })
+        }),
+        'IV': new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(56, 168, 0, 255)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(110, 110, 110, 255)',
+                width: 0
+            })
+        }),
+        'V': new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(168, 112, 0, 255)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(110, 110, 110, 255)',
+                width: 0.4
+            })
+        }),
+        'VI': new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(0, 112, 0, 255)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(110, 110, 110, 255)',
+                width: 0.4
+            })
+        }),
+        'VII': new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(168, 0, 0, 255)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(110, 110, 110, 255)',
+                width: 0.4
+            })
+        })
+
+    };
+
+    var vectorSource = new ol.source.Vector({
+        loader: function (extent, resolution, projection) {
+            var url = serviceUrl + layer + '/query/?f=json&' +
+                'returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=' +
+                encodeURIComponent('{"xmin":' + extent[0] + ',"ymin":' +
+                    extent[1] + ',"xmax":' + extent[2] + ',"ymax":' + extent[3] +
+                    ',"spatialReference":{"wkid":102100}}') +
+                '&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*' +
+                '&outSR=102100' +
+                '&Token=' + '@ViewBag.EsriToken';
+            $.ajax({
+                url: url, dataType: 'jsonp', success: function (response) {
+                    if (response.error) {
+                        alert(response.error.message + '\n' +
+                            response.error.details.join('\n'));
+                    } else {
+                        // dataProjection will be read from document
+                        var features = esrijsonFormat.readFeatures(response, {
+                            featureProjection: projection
+                        });
+                        //debugger;
+                        if (features.length > 0) {
+                            vectorSource.addFeatures(features);
+                        }
+                    }
+                }
+            });
+        },
+        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+            tileSize: 512
+        }))
+    });
+
+    var vector = new ol.layer.Vector({
+        source: vectorSource,
+        token: '@ViewBag.EsriToken',
+        name: "Pewe",
+        style: function (feature) {
+            var classify = feature.get('Symbol');
+            return styleCache[classify];
+
+        }
+    });
+
+    vector.setVisible(1);
+
+    function AdjustGeologicUnitMap() {
+        //toggle the visibility of the geologic unit map
+        if (vector.getVisible() === 0) {
+            vector.setVisible(1);
+        } else {
+            vector.setVisible(0);
+        }
+    }
+
+
+
+    var attribution = new ol.Attribution({
+        html: 'Tiles &copy; <a href="http://services.arcgisonline.com/ArcGIS/' +
+            'rest/services/World_Topo_Map/MapServer">ArcGIS</a>'
+    });
+
+    var raster = new ol.layer.Tile({
+        source: new ol.source.XYZ({
+            attributions: [attribution],
+            url: 'http://server.arcgisonline.com/ArcGIS/rest/services/' +
+                'World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
+        })
+    });
+
+    function AdjustStreetMap() {
+        //toggle the visibility of the street map
+        if (raster.getVisible() === 0) {
+            raster.setVisible(1);
+        } else {
+            raster.setVisible(0);
+        }
+    }
+
+    var SatRaster = new ol.layer.Tile({
+        source: new ol.source.BingMaps({
+            key: 'AlbXI9UisaPbXFB2HFtTLt7h1XBbfhXgDyNPsTlq9JEyFzeqoI32TARaBwcjFACm',
+            imagerySet: 'AerialWithLabels'
+        })
+    });
+
+    function AdjustSatelliteMap() {
+        //toggle the visibility of the street map
+        if (SatRaster.getVisible() === 0) {
+            SatRaster.setVisible(1);
+        } else {
+            SatRaster.setVisible(0);
+        }
+    }
+
+    //var source = new ol.source.Vector({ wrapX: false });
+
+    var Drawfeatures = new ol.Collection();
+
+    var getText = function(feature) {
+        var text = feature.get('NAME');
+        return text;
+    };
+
+    var createTextStyle = function(feature) {
+        return new ol.style.Text({
+            textAlign: 'center',
+            textBaseline: 'middle',
+            font: '12px Verdana',
+            text: getText(feature),
+            fill: new ol.style.Fill({color: 'red'}),
+            stroke: new ol.style.Stroke({color: 'white', width: 0.5})
+        });
+    };
+
+    //style of drawn features
+    var createStyleFunction = function() {
+        return function(feature) {
+            var style08 = new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 255, 255, 0.2)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc33',
+                    width: 2
+                }),
+                image: new ol.style.Circle({
+                    radius: 20,
+                    fill: new ol.style.Fill({
+                        color: 'rgba(255, 255, 0, 0.5)'
+                    })
+                }),
+
+                text: createTextStyle(feature)
+            });
+            return [style08];
+        };
+    };
+
+
+    //style of drawn features
+    var createBuildingStyleFunction = function() {
+        return function(feature) {
+            var style08 = new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 255, 255, 0.2)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: 'rgba(0, 0, 0, 1.0)',
+                    width: 5
+                }),
+                image: new ol.style.Circle({
+                    radius: 20,
+                    fill: new ol.style.Fill({
+                        color: 'rgba(0, 255, 0, 0.5)'
+                    })
+                }),
+
+                text: createTextStyle(feature)
+            });
+            return [style08];
+        };
+    };
+
+    //var DrawSource = new ol.source.Vector({features: Drawfeatures});
+
+    var DrawVector = new ol.layer.Vector({
+        source: new ol.source.Vector({features: Drawfeatures}),
+        style: createStyleFunction()
+    });
+
+    //buildingsite
+    var BuildingSitePolygons = new ol.Collection();
+    var BuildingSiteVector = new ol.layer.Vector({
+        source: new ol.source.Vector({features: BuildingSitePolygons}),
+        style: createBuildingStyleFunction(),
+        name: "BuildingSiteLayer"
+    })
+
+    //assessment Area
+    var AssessmentAreaPolygons  = new ol.Collection();
+    var AssessmentAreaVector = new ol.layer.Vector({
+        source: new ol.source.Vector({features: AssessmentAreaPolygons}),
+        style: createStyleFunction(),
+        name: "AssessmentAreaLayer"
+    })
+
+    //transects
+    var TransectLines  = new ol.Collection();
+    var TransectLineVector = new ol.layer.Vector({
+        source: new ol.source.Vector({features: TransectLines}),
+        style: createStyleFunction(),
+        name: "TransectLineLayer"
+    })
+
+
+    // Boreholes
+    var BHFeatures = new ol.Collection();
+
+    var boreholeSource = new ol.source.Vector({});
+
+    var getBoreholeText = function(feature) {
+        var text = String(feature.get('Station'));
+        return text;
+    };
+
+    var createBoreholeTextStyle = function(feature) {
+        return new ol.style.Text({
+            textAlign: 'center',
+            textBaseline: 'middle',
+            font: '12px Verdana',
+            text: getBoreholeText(feature),
+            fill: new ol.style.Fill({color: 'red'}),
+            stroke: new ol.style.Stroke({color: 'white', width: 0.5}),
+            offsetY: 12
+        });
+    };
+
+    var createBoreholeStyleFunction = function() {
+        return function(feature) {
+            var style08 = new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 255, 255, 0.2)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc33',
+                    width: 2
+                }),
+                image: new ol.style.Circle({
+                    radius: 5,
+                    fill: new ol.style.Fill({
+                        color: 'red'
+                    })
+                }),
+                text: createBoreholeTextStyle(feature)
+            });
+            return [style08];
+        };
+    };
+
+    var BoreholeVector = new ol.layer.Vector({
+        source: new ol.source.Vector({features: BHFeatures}),
+        style: createBoreholeStyleFunction(),
+        name: "Boreholes"
+    });
+
+
+
+    //stable area
+
+    var BHStableAreaPolygons = new ol.Collection();
+
+    var createKnownStableAreaFunction = function() {
+        return function(feature) {
+            var style09 = new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(0, 255, 0, 0.2)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc33',
+                    width: 2
+                })
+            });
+            var style10 = new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(0, 255, 255, 0.2)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc33',
+                    width: 2
+                })
+            });
+            var style11 = new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(0, 0, 255, 0.2)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc33',
+                    width: 2
+                })
+            });
+            var style12 = new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 0, 255, 0.2)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc33',
+                    width: 2
+                })
+            });
+            var style13 = new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 0, 0, 0.2)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc33',
+                    width: 2
+                })
+            });
+            var style14 = new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(100, 100, 100, 0.2)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc33',
+                    width: 2
+                })
+            });
+
+            if (feature.get('StableDepth') != null) {
+                if (feature.get('StableDepth') < 1.0) {
+                    return [style09];
+                } else if (feature.get('StableDepth') < 2.0) {
+                    return [style10];
+                } else if (feature.get('StableDepth') < 3.0) {
+                    return [style11];
+                } else if (feature.get('StableDepth') < 4.0) {
+                    return [style12];
+                } else if (feature.get('StableDepth') < 5.0) {
+                    return [style13];
+                } else {
+                    return [style14];
+                }
+            } else {
+                if (feature.get('PotentialThawSettlement') < 10.0) {
+                    return [style09];
+                } else if (feature.get('PotentialThawSettlement') < 20.0) {
+                    return [style10];
+                } else if (feature.get('PotentialThawSettlement') < 30.0) {
+                    return [style11];
+                } else if (feature.get('PotentialThawSettlement') < 40.0) {
+                    return [style12];
+                } else {
+                    return [style13];
+                }
+            }
+
+
+
+
+
+
+        };
+    };
+
+    var StableLayerVector = new ol.layer.Vector({
+        source: new ol.source.Vector({features: BHStableAreaPolygons}),
+        style: createKnownStableAreaFunction(),
+        name: "StableLayer"
+    })
+
+    function MapTransects() {
+
+        TransectLines.clear();
+
+        var TrasectProps = document.getElementById("TransectProps").value.split(";");
+        var TransectCoords = document.getElementById("TransectBlob").value.split(";");
+
+        for (var i = 1; i < TrasectProps.length; i++)
+        {
+            var TP1 = TrasectProps[i].split(',');
+            var theTID = TP1[0].trim();
+            var theLength = TP1[1];
+
+            var thisCoords = TransectCoords[i].split(",");
+
+            var LinVerts = [];
+
+            for (var j = 1; j < thisCoords.length; j++) {
+
+                var thislat = Number(thisCoords[j]);
+                var thislon = Number(thisCoords[j-1]);
+
+                //convert to map's projection
+                var thispointgeom = new ol.geom.Point(ol.proj.transform([thislon, thislat], 'EPSG:4326', 'EPSG:3857'));
+                var coord1 = thispointgeom.getCoordinates();
+
+                LinVerts.push([coord1[0], coord1[1]]);
+                j = j + 1;
+
+            }
+
+            var theline = new ol.geom.LineString(LinVerts);
+            var newfeature = new ol.Feature(theline);
+
+            newfeature.setProperties({
+
+                'NAME': theTID
+            })
+
+
+            TransectLines.push(newfeature);
+
+
+
+        }
+
+    }
+
+    function MapBuilding() {
+
+        BuildingSitePolygons.clear();
+        RotateBuilding(0);  //place the building on themap at the angle currently stored in the database
+
+    }
+
+    function ShowBuildingLocationAssessment() {
+
+        RunBuildingSiteAssessment();
+    }
+
+
+    function MapAssessmentArea() {
+
+        var AssessmentAreaPoints= document.getElementById("ShapeCoordinates").value.split(",");
+        var NumPoints = AssessmentAreaPoints.length;
+        if (NumPoints > 2) {
+
+            var PolyVerts = [];
+            for (var i = 1; i < NumPoints; i++) {
+
+                var PointX = AssessmentAreaPoints[i-1];
+                i = i + 1;
+                var PointY = AssessmentAreaPoints[i-1];
+                var thispointgeom = new ol.geom.Point(ol.proj.transform([Number(PointX), Number(PointY)], 'EPSG:4326', 'EPSG:3857'));
+                var coord1 = thispointgeom.getCoordinates();
+                PolyVerts.push([coord1[0], coord1[1]]);
+
+            }
+
+            var poly = new ol.geom.Polygon([PolyVerts]);
+            //var source = new ol.source.Vector();
+
+            //debugger;
+
+            //var NewGeometry = ol.geom.Polygon(poly);
+            //var newfeature = new ol.Feature({
+            //    geometry: NewGeometry,
+            //});
+
+            //source.addFeature(feature);
+
+            var newfeature = new ol.Feature(poly);
+
+            AssessmentAreaPolygons.clear();
+
+            AssessmentAreaPolygons.push(newfeature);
+
+            var coordinates = poly.getLinearRing(0).getCoordinates();
+
+            var wgs84Sphere = new ol.Sphere(6378137);
+            var sourceProj = map.getView().getProjection();
+            var geom2 = newfeature.clone().getGeometry().transform(sourceProj, 'EPSG:4326');
+            var coordinates = geom2.getLinearRing(0).getCoordinates();
+            var area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
+
+        }
+
+    }
+
+
+    function MapBoreholes() {
+
+        var CurModel = document.getElementById("CurrentModel").value;
+
+        var model = null;
+
+        if (CurModel != null && CurModel != "") {
+            model = JSON.parse(CurModel);
+        } else {
+            model =  @Html.Raw(Json.Encode(Model));
+        }
+
+        //var model = @Html.Raw(Json.Encode(Model));
+
+        //var BHCount = @Model.Boreholes.Count;
+
+        if (model != null) {
+            if (model.Boreholes != null) {
+
+                if (model.Boreholes.length > 0) {
+                    for (var i = 0; i < model.Boreholes.length; i++) {
+                        var thisBorehole = model.Boreholes[i];
+                        //if (isProposedBorehole(thisBorehole.Station)) {
+                        var thispointgeom = new ol.geom.Point(ol.proj.transform([thisBorehole.Longitude, thisBorehole.Latitude], 'EPSG:4326', 'EPSG:3857'));
+
+                        var newfeature = new ol.Feature({
+                            content: thisBorehole.BoreholeName,
+                            mapid: i,
+                            geometry: thispointgeom
+                        });
+
+                        newfeature.setProperties({
+
+                            'Station': thisBorehole.Station
+                        })
+
+                        //boreholeSource.addFeature(newfeature);
+                        BHFeatures.push(newfeature);
+                        //}
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    function MapKnownThawSettlementArea() {
+
+        var KnownPoints= document.getElementById("KnownThawSettlementPoints").value.split(";");
+        var NumPoints = KnownPoints.length;
+
+        BHStableAreaPolygons.clear();
+
+        for (var i = 1; i < NumPoints; i++) {
+
+            var PointCoords1 = KnownPoints[i].split(",");
+            var PointCoords2 = KnownPoints[i-1].split(",");
+
+            var thispointgeom1 = new ol.geom.Point([PointCoords1[0], PointCoords1[1]]);
+            var thispointgeom2 = new ol.geom.Point([PointCoords1[2], PointCoords1[3]]);
+            var thispointgeom3 = new ol.geom.Point([PointCoords2[0], PointCoords2[1]]);
+            var thispointgeom4 = new ol.geom.Point([PointCoords2[2], PointCoords2[3]]);
+            var thisBHStableDepth = PointCoords1[4];
+
+            var PolyVerts = [];
+            PolyVerts.push([PointCoords1[0], PointCoords1[1]]);
+            PolyVerts.push([PointCoords1[2], PointCoords1[3]]);
+            PolyVerts.push([PointCoords2[2], PointCoords2[3]]);
+            PolyVerts.push([PointCoords2[0], PointCoords2[1]]);
+            PolyVerts.push([PointCoords1[0], PointCoords1[1]]);
+
+            var poly = new ol.geom.Polygon([PolyVerts]);
+
+            var BHSettlement = Math.round(Number(PointCoords1[4]));
+
+            var newfeature = new ol.Feature(poly);
+            newfeature.setProperties({
+                'PotentialThawSettlement': BHSettlement
+            })
+
+            BHStableAreaPolygons.push(newfeature);
+        }
+    }
+
+
+    function MapKnownStableArea() {
+
+        BHStableAreaPolygons.clear();
+
+        var KnownStableAreaPoints= document.getElementById("KnownStableAreaPoints").value.split(";");
+        var NumPoints = KnownStableAreaPoints.length;
+
+        for (var i = 1; i < NumPoints; i++) {
+
+            var PointCoords1 = KnownStableAreaPoints[i].split(",");
+            var PointCoords2 = KnownStableAreaPoints[i-1].split(",");
+
+            var thispointgeom1 = new ol.geom.Point([PointCoords1[0], PointCoords1[1]]);
+            var thispointgeom2 = new ol.geom.Point([PointCoords1[2], PointCoords1[3]]);
+            var thispointgeom3 = new ol.geom.Point([PointCoords2[0], PointCoords2[1]]);
+            var thispointgeom4 = new ol.geom.Point([PointCoords2[2], PointCoords2[3]]);
+            var thisBHStableDepth = PointCoords1[4];
+
+            var PolyVerts = [];
+            PolyVerts.push([PointCoords1[0], PointCoords1[1]]);
+            PolyVerts.push([PointCoords1[2], PointCoords1[3]]);
+            PolyVerts.push([PointCoords2[2], PointCoords2[3]]);
+            PolyVerts.push([PointCoords2[0], PointCoords2[1]]);
+            PolyVerts.push([PointCoords1[0], PointCoords1[1]]);
+
+            var poly = new ol.geom.Polygon([PolyVerts]);
+
+            var newfeature = new ol.Feature(poly);
+            newfeature.setProperties({
+                'StableDepth': PointCoords1[4]
+            })
+
+
+            BHStableAreaPolygons.push(newfeature);
+        }
+    }
+
+
+
+
+    var controls = [
+    new ol.control.Attribution(),
+    new ol.control.MousePosition({
+        undefinedHTML: 'outside',
+        projection: 'EPSG:4326',
+        coordinateFormat: function (coordinate) {
+            return ol.coordinate.format(coordinate, '{x}, {y}', 4);
+        }
+    }),
+    new ol.control.OverviewMap({
+        collapsed: false
+    }),
+    new ol.control.Rotate({
+        autoHide: false
+    }),
+    new ol.control.ScaleLine(),
+    new ol.control.Zoom(),
+    new ol.control.ZoomSlider(),
+    new ol.control.ZoomToExtent(),
+    new ol.control.FullScreen()
+    ];
+
+    var map = new ol.Map({
+        layers: [SatRaster, raster, vector, BoreholeVector, StableLayerVector, AssessmentAreaVector, TransectLineVector, BuildingSiteVector, DrawVector],
+        target: document.getElementById('theMap6'),
+        controls: controls,
+        interactions: ol.interaction.defaults({doubleClickZoom :false}),
+        view: new ol.View({
+            center: ol.proj.transform([-147.7231, 64.8436], 'EPSG:4326', 'EPSG:3857'),
+            zoom: 12
+        })
+    });
+
+
+    var displayFeatureInfo = function (pixel) {
+
+        var CurrentDrawType = document.getElementById('CurrentDrawType').value;
+        if (CurrentDrawType === "None") {
+            var SearchFeatures = [];
+            map.forEachFeatureAtPixel(pixel, function (feature) {
+                SearchFeatures.push(feature);
+            });
+            if (SearchFeatures.length > 0) {
+                var info = [];
+                var i, ii;
+                for (i = 0, ii = SearchFeatures.length; i < ii; ++i) {
+                    info.push(SearchFeatures[i].get('Name') + ": " + SearchFeatures[i].get('Description'))
+                }
+
+                document.getElementById('AssessmentResultsTitle').innerHTML = '<h1>Map Query Results</h1>';
+
+                document.getElementById('TerrainUnitTitle').innerHTML = '<h3>Terrain Units</h3>';
+                document.getElementById('TerrainUnitDescription').innerHTML = info.join(', ') || '(unknown)';
+
+                document.getElementById('IceContentPFTitle').innerHTML = '<h3></h3>';
+                document.getElementById('IceContentDescription').innerHTML = '';
+
+
+                ////show the query result
+                var $modal = $('.modalOverlay');
+                $modal.removeClass('is-inactive');
+                $modal.addClass('is-active');
+
+
+
+                map.getTarget().style.cursor = 'pointer';
+            } else {
+                if (document.getElementById('info') != null) {
+                    document.getElementById('info').innerHTML = 'Nothing';
+                }
+                map.getTarget().style.cursor = '';
+            }
+        }
+
+    };
+
+    map.on('pointermove', function (evt) {
+        if (evt.dragging) {
+            return;
+        }
+        var pixel = map.getEventPixel(evt.originalEvent);
+        //displayFeatureInfo(pixel);
+    });
+
+    map.on('click', function (evt) {
+        displayFeatureInfo(evt.pixel);
+    });
+
+
+    function remove_interaction(interaction, index, array) {
+        var is_Draw = interaction instanceof ol.interaction.Draw;
+
+        if (is_Draw && interaction != draw) {
+            map.removeInteraction(interaction);
+        }
+    }
+
+
+
+    var draw;
+    //var olddraw;
+
+    var drawings = [];
+
+    // a normal select interaction to handle click
+    var select = new ol.interaction.Select();
+    map.addInteraction(select);
+
+    var selectedFeatures = select.getFeatures();
+    selectedFeatures.on('add', function(event) {
+        var feature = event.target.item(0);
+        var thisStableDepth = feature.get('StableDepth');
+    });
+
+
+    var tooltip = document.getElementById('ToolTip');
+
+    var overlay = new ol.Overlay({
+        element: tooltip,
+        offset: [10, 0],
+        positioning: 'bottom-left'
+    });
+    map.addOverlay(overlay);
+
+    function displayTooltip(evt) {
+        var pixel = evt.pixel;
+        var feature = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            if (layer) {
+                var LName = layer.get('name');
+                if (LName == "StableLayer") {
+                    return feature;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+
+
+        });
+        tooltip.style.display = feature ? '' : 'none';
+        if (feature) {
+            overlay.setPosition(evt.coordinate);
+            if (feature.get('StableDepth') != null) {
+                tooltip.innerHTML = "Stable Depth: " + feature.get('StableDepth') + "m";
+            } else {
+                tooltip.innerHTML = "Potential Thaw Settlement: " + feature.get('PotentialThawSettlement') + "cm";
+            }
+            
+        }
+    };
+
+    map.on('pointermove', displayTooltip);
+
+
+    //description of terrain units
+    var TerrainUnitDescription = "";
+
+
+    function AddMapDraw() {
+        var TrackDraw = true;
+
+        if (TrackDraw) {
+
+            var DrawType = document.getElementById('CurrentDrawType').value;
+
+            //draw the assessment
+
+            MapAssessmentArea();
+            MapBoreholes();
+            MapTransects();
+            MapBuilding();
+
+
+            if (DrawType !== 'None') {
+
+                if (DrawType == 'SiteLocation') {
+                    draw = new ol.interaction.Draw({
+                        features: Drawfeatures,
+                        type: 'Polygon'
+
+                    })
+                } else if (DrawType == 'DrawNewTransect') {
+
+                    draw = new ol.interaction.Draw({
+                        features: Drawfeatures,
+                        type: 'LineString'
+
+
+                    })
+                } else if (DrawType == 'BuildingSiteLocation') {
+
+                    draw = new ol.interaction.Draw({
+                        features: Drawfeatures,
+                        type: 'Point'
+                    })
+
+                }
+
+
+                //if (olddraw !== undefined) {
+                //    map.removeInteraction(olddraw);
+                //}
+
+                map.addInteraction(draw);
+
+                draw.on('drawstart', function (event) {
+                    //clear existing features
+                    //var interactions = map.getInteractions();
+                    //debugger;
+                    //interactions.forEach(remove_interaction);
+
+
+                });
+
+                draw.on('drawend', function (event) {
+
+                    var DrawType = document.getElementById('CurrentDrawType').value;
+
+                    // get the feature
+                    var feature = event.feature;
+
+                    if (DrawType == "SiteLocation") {
+                        var geom = feature.getGeometry();
+                        var coords = geom.getCoordinates();
+                        //var latlon = ol.proj.transform(coords, 'EPSG:3857', 'EPSG:4326');
+
+                        //document.getElementById('SiteLatitude').value = latlon[0];
+                        //document.getElementById('SiteLongitude').value = latlon[1];
+
+                        var wgs84Sphere = new ol.Sphere(6378137);
+                        var sourceProj = map.getView().getProjection();
+                        var geom2 = feature.clone().getGeometry().transform(sourceProj, 'EPSG:4326');
+                        var coordinates = geom2.getLinearRing(0).getCoordinates();
+                        var area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
+
+                        var area_km = area / 1000 / 1000;
+
+                        //document.getElementById('AssessmentArea').value = area_km.toFixed(2) + ' km^2';
+                        document.getElementById('ShapeCoordinates').value = coordinates;
+
+                        // features that intersect the assessment area are added to the collection of
+                        // selected features
+                        var info = [];
+                        var extent = feature.getGeometry().getExtent();
+                        vectorSource.forEachFeatureIntersectingExtent(extent, function (feature) {
+                            selectedFeatures.push(feature);
+                            var FName = feature.get('Name');
+                            var FDesc = feature.get('Description');
+                            var FSymbol = feature.get('Symbol');
+                            info.push(feature.get('Name') + ": " + feature.get('Description'));
+                        });
+                        if (info.length > 0) {
+                            TerrainUnitDescription = info.join('<br /><br />');
+                        }
+                        document.getElementById("TerrainDescription").value = TerrainUnitDescription;
+
+                        var AssessmentAreaSummaryText = "<h2>Assessment Area Properties</h2>" +
+                            "<h6>Area:  " + area_km.toFixed(2) + " km^2</h6>" +
+                            "<h6>Terrain Unit(s) - from Pewe (1975)</h6>" + TerrainUnitDescription;
+
+
+                        document.getElementById("AssessmentAreaSummary").innerHTML = AssessmentAreaSummaryText;
+
+                        //olddraw = draw;
+                        map.removeInteraction(draw);
+                        document.getElementById('CurrentDrawType').value = "None";
+                        //$("#CurrentDrawType").val("None").change();
+
+                    } else if (DrawType == "DrawNewTransect") {
+
+                        var theTransectProps = document.getElementById("TransectProps").value.split(";");
+                        var NumTransects = theTransectProps.length - 1;
+
+                        var thisTransectName = "Transect " + document.getElementById("AssessmentID").value + "-" +  Number(NumTransects + 1);
+
+                        feature.setProperties({
+                            'NAME': thisTransectName
+                        })
+
+
+                        var geom = feature.getGeometry();
+                        var coords = geom.getCoordinates();
+                        var wgs84Sphere = new ol.Sphere(6378137);
+                        var sourceProj = map.getView().getProjection();
+                        var geom2 = feature.clone().getGeometry().transform(sourceProj, 'EPSG:4326');
+                        var coordinates = geom2.getCoordinates();
+
+                        var RealLength = 0;
+                        for (var i = 0, ii = coordinates.length - 1; i < ii; ++i) {
+                            var c1 = coordinates[i];
+                            var c2 = coordinates[i+1];
+                            RealLength = RealLength + wgs84Sphere.haversineDistance(c1, c2);
+                        }
+
+                        document.getElementById("TransectBlob").value = document.getElementById("TransectBlob").value + "; " + coordinates;
+
+                        var thisTProps = thisTransectName + ", " + RealLength;
+
+                        document.getElementById("TransectProps").value = document.getElementById("TransectProps").value + "; " + thisTProps;
+
+                        //pull the elevations using the USGS NED map service
+                        for (var i = 0; i < coordinates.length; i++) {
+                            var Coord1 = coordinates[i];
+                            GetNEDElevation(Coord1[0], Coord1[1]);
+                        }
+
+                        map.removeInteraction(draw);
+                        document.getElementById('CurrentDrawType').value = "None";
+
+
+                        LoadTransects("Basic", "TransectTable1");
+
+                    } else if (DrawType == "BuildingSiteLocation") {
+
+                        var geom = feature.getGeometry();
+                        var coords = geom.getCoordinates();
+                        var wgs84Sphere = new ol.Sphere(6378137);
+                        var sourceProj = map.getView().getProjection();
+                        var geom2 = feature.clone().getGeometry().transform(sourceProj, 'EPSG:4326');
+                        var coordinates = geom2.getCoordinates();
+
+                        document.getElementById('BuildingSiteCoordinates').value = coordinates;
+
+                        var CurModel = document.getElementById("CurrentModel").value;
+
+                        var model = null;
+
+                        if (CurModel != null && CurModel != "") {
+                            model = JSON.parse(CurModel);
+                        } else {
+                            model =  @Html.Raw(Json.Encode(Model));
+                        }
+
+                        //store the site locaiton to the model
+                        var latlon = ol.proj.transform(coords, 'EPSG:3857', 'EPSG:4326');
+                        document.getElementById('SiteLongitude').value = latlon[0];
+                        document.getElementById('SiteLatitude').value = latlon[1];
+                        document.getElementById('SiteAngle').value = 0;
+
+                        //create a polygon the same dimensions as the building
+                        //and place it on the map
+                        var BuildingRadius = Math.pow(Math.pow(model.StructureLength, 2) + Math.pow(model.StructureWidth, 2),0.5);
+                        BuildingRadius = BuildingRadius / 2.0;
+
+                        var BldgLength = Number(model.StructureLength);
+                        var BldgWidth = Number(model.StructureWidth);
+
+                        var BldgVerts = [];
+
+                        var thispointgeom1 = new ol.geom.Point([coords[0] + BldgLength/ 2.0, coords[1] + BldgWidth / 2.0]);
+                        var coord1 = thispointgeom1.getCoordinates();
+                        BldgVerts.push([coord1[0], coord1[1]]);
+
+                        var thispointgeom2 = new ol.geom.Point([coords[0] - BldgLength/ 2.0, coords[1] + BldgWidth/ 2.0]);
+                        var coord2 = thispointgeom2.getCoordinates();
+                        BldgVerts.push([coord2[0], coord2[1]]);
+
+                        var thispointgeom3 = new ol.geom.Point([coords[0] - BldgLength/ 2.0, coords[1] - BldgWidth/ 2.0]);
+                        var coord3 = thispointgeom3.getCoordinates();
+                        BldgVerts.push([coord3[0], coord3[1]]);
+
+                        var thispointgeom4 = new ol.geom.Point([coords[0] + BldgLength/ 2.0, coords[1] - BldgWidth/ 2.0]);
+                        var coord4 = thispointgeom4.getCoordinates();
+                        BldgVerts.push([coord4[0], coord4[1]]);
+
+                        var thispointgeom5 = new ol.geom.Point([coords[0] + BldgLength/ 2.0, coords[1] + BldgWidth / 2.0]);
+                        var coord5 = thispointgeom5.getCoordinates();
+                        BldgVerts.push([coord5[0], coord5[1]]);
+
+                        var thePoly = new ol.geom.Polygon([BldgVerts]);
+
+                        var newBuildingSite = new ol.Feature(thePoly);
+
+                        BuildingSitePolygons.clear();
+
+                        BuildingSitePolygons.push(newBuildingSite);
+
+                        ShowBuildingLocationAssessment();
+
+                        Drawfeatures.clear();
+
+                        map.removeInteraction(draw);
+                        document.getElementById('CurrentDrawType').value = "None";
+
+                    } else if (DrawType == "None") {
+
+                        map.removeInteraction(draw);
+                        document.getElementById('CurrentDrawType').value = "None";
+                    }
+
+
+
+
+
+                });
+            }
+
+        }
+    }
+
+    AddMapDraw();
+
+    function RotateBuildingLeft() {
+        RotateBuilding(10);
+    }
+
+    function RotateBuildingRight() {
+        RotateBuilding(-10);
+    }
+
+    function RotateBuilding(DesiredChangeInAngle) {
+
+        var curLat = document.getElementById("SiteLatitude").value;
+        var curLon = document.getElementById("SiteLongitude").value;
+        var curAngle = document.getElementById("SiteAngle").value;
+        //change the angle
+        curAngle = Number(curAngle) + DesiredChangeInAngle;
+        document.getElementById("SiteAngle").value = curAngle;
+
+        var CurCenter = new ol.geom.Point(ol.proj.transform([Number(curLon), Number(curLat)], 'EPSG:4326', 'EPSG:3857'));
+        var coords = CurCenter.getCoordinates();
+
+        var CurModel = document.getElementById("CurrentModel").value;
+
+        var model = null;
+
+        if (CurModel != null && CurModel != "") {
+            model = JSON.parse(CurModel);
+        } else {
+            model =  @Html.Raw(Json.Encode(Model));
+        }
+
+        //create a polygon the same dimensions as the building
+        //and place it on the map
+        var BuildingRadius = Math.pow(Math.pow(model.StructureLength, 2) + Math.pow(model.StructureWidth, 2),0.5);
+        BuildingRadius = BuildingRadius / 2.0;
+
+        var BldgLength = Number(model.StructureLength);
+        var BldgWidth = Number(model.StructureWidth);
+
+        var BldgVerts = [];
+
+        var thispointgeom1 = new ol.geom.Point([coords[0] + BldgLength/ 2.0, coords[1] + BldgWidth / 2.0]);
+        var coord1 = thispointgeom1.getCoordinates();
+        BldgVerts.push([coord1[0], coord1[1]]);
+
+        var thispointgeom2 = new ol.geom.Point([coords[0] - BldgLength/ 2.0, coords[1] + BldgWidth/ 2.0]);
+        var coord2 = thispointgeom2.getCoordinates();
+        BldgVerts.push([coord2[0], coord2[1]]);
+
+        var thispointgeom3 = new ol.geom.Point([coords[0] - BldgLength/ 2.0, coords[1] - BldgWidth/ 2.0]);
+        var coord3 = thispointgeom3.getCoordinates();
+        BldgVerts.push([coord3[0], coord3[1]]);
+
+        var thispointgeom4 = new ol.geom.Point([coords[0] + BldgLength/ 2.0, coords[1] - BldgWidth/ 2.0]);
+        var coord4 = thispointgeom4.getCoordinates();
+        BldgVerts.push([coord4[0], coord4[1]]);
+
+        var thispointgeom5 = new ol.geom.Point([coords[0] + BldgLength/ 2.0, coords[1] + BldgWidth / 2.0]);
+        var coord5 = thispointgeom5.getCoordinates();
+        BldgVerts.push([coord5[0], coord5[1]]);
+
+        //rotate the points
+
+
+
+        var BldgVerts_Rotated = [];
+        for (var i = 0; i < 5; i++) {
+            var PtCoords = BldgVerts[i];
+            var RotatedCoords = RotatePoint(PtCoords, coords, curAngle);
+            BldgVerts_Rotated.push(RotatedCoords);
+        }
+
+
+        var thePoly = new ol.geom.Polygon([BldgVerts_Rotated]);
+
+        var newBuildingSite = new ol.Feature(thePoly);
+
+        BuildingSitePolygons.clear();
+
+        BuildingSitePolygons.push(newBuildingSite);
+
+        var coordinates = thePoly.getLinearRing(0).getCoordinates();
+
+        var wgs84Sphere = new ol.Sphere(6378137);
+        var sourceProj = map.getView().getProjection();
+        var geom2 = newBuildingSite.clone().getGeometry().transform(sourceProj, 'EPSG:4326');
+        var coordinates = geom2.getLinearRing(0).getCoordinates();
+        var area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
+
+    }
+
+    function RotatePoint(OrigCoords, CenterPt, DesiredAngle){
+
+        var OrigX = OrigCoords[0];
+        var OrigY = OrigCoords[1];
+        var CenterX = CenterPt[0];
+        var CenterY = CenterPt[1];
+
+        var AngleRad = (DesiredAngle/180) * 3.14159;
+        var cosAngle = Math.cos(AngleRad);
+        var sinAngle = Math.sin(AngleRad);
+        var dx = (OrigX - CenterX);
+        var dy = (OrigY - CenterY);
+
+        var NewX = CenterX + (dx * cosAngle - dy * sinAngle);
+        var NewY = CenterY + (dx * sinAngle + dy * cosAngle);
+
+        var NewCoords = [];
+        NewCoords.push(NewX);
+        NewCoords.push(NewY);
+
+        return NewCoords;
+    }
+
+    function ZoomToAssessment() {
+
+        var AssessmentAreaPoints= document.getElementById("ShapeCoordinates").value.split(",");
+        var NumPoints = AssessmentAreaPoints.length;
+        if (NumPoints > 2) {
+
+            var PolyVerts = [];
+            for (var i = 1; i < NumPoints; i++) {
+
+                var PointX = AssessmentAreaPoints[i-1];
+                i = i + 1;
+                var PointY = AssessmentAreaPoints[i-1];
+                var thispointgeom = new ol.geom.Point(ol.proj.transform([Number(PointX), Number(PointY)], 'EPSG:4326', 'EPSG:3857'));
+                var coord1 = thispointgeom.getCoordinates();
+                PolyVerts.push([coord1[0], coord1[1]]);
+
+            }
+
+            var poly = new ol.geom.Polygon([PolyVerts]);
+
+            var newfeature = new ol.Feature(poly);
+
+            var extent = newfeature.getGeometry().getExtent();
+
+            var bounds10 = ol.extent.createEmpty();
+            ol.extent.buffer(extent, 500, bounds10);
+
+            map.getView().fit(bounds10,map.getSize());
+
+        }
+
+
+
+
+
+
+
+    }
+
+
+    $(window).resize(function () {
+
+        //UpdateTableSize();
+
+    });
+
+
+    function UpdateTableSize() {
+        //$('#log').append('<div>Handler for .resize() called.</div>');
+        var canvasheight=$('#AssessmentTable').parent().css('height');
+        var canvaswidth=$('#AssessmentTable').parent().css('width');
+
+        $('#AssessmentTable').css("height", canvasheight);
+        $('#AssessmentTable').css("width", canvaswidth);
+
+        $('#AssessmentTable').render;
+
+
+    }
+
+
+    var CurrentDrawType = document.getElementById('CurrentDrawType');
+
+    CurrentDrawType.onchange = function (e) {
+
+        var DrawType = document.getElementById('CurrentDrawType').value;
+
+        if (DrawType !== "None") {
+            //var Drawfeatures = DrawVector.getSource().getFeatures();
+            //for (var i = 0; i < Drawfeatures.length; i++) {
+            //    Drawfeatures[i].setGeometry(new ol.geom.Point([]));
+            //}
+            //DrawVector.getSource().clear();
+            //Drawfeatures.clear;
+            map.render();
+            AddMapDraw();
+
+        } else {
+            map.render();
+            map.removeInteraction(draw);
+            AddMapDraw();
+        }
+
+        //DrawVector.getSource().clear;
+
+    };
+
+ //   /**
+ //* Handle change event.
+ //*/
+ //   typeSelect.onchange = function() {
+ //       map.removeInteraction(draw);
+ //       addInteraction();
+ //   };
+
+
+
+
+
+
+
+</script>

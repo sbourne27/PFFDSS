@@ -1,0 +1,371 @@
+﻿@model BloodDonors.Models.StructureType
+
+@Html.LabelFor(x => x, "Light")
+@if (Model == BloodDonors.Models.StructureType.Light)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Light, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Light);
+}
+
+@Html.LabelFor(x => x, "Heavy")
+@if (Model == BloodDonors.Models.StructureType.Heavy)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Heavy, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Heavy);
+}
+
+@Html.LabelFor(x => x, "Barracks_Small")
+@if (Model == BloodDonors.Models.StructureType.Barracks_Small)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Barracks_Small, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Barracks_Small);
+}
+
+@Html.LabelFor(x => x, "Barracks_Large_Transient")
+@if (Model == BloodDonors.Models.StructureType.Barracks_Large_Transient)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Barracks_Large_Transient, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Barracks_Large_Transient);
+}
+
+@Html.LabelFor(x => x, "Barracks_Large_Permanent")
+@if (Model == BloodDonors.Models.StructureType.Barracks_Large_Permanent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Barracks_Large_Permanent, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Barracks_Large_Permanent);
+}
+
+
+@Html.LabelFor(x => x, "Government_Admin")
+@if (Model == BloodDonors.Models.StructureType.Government_Admin)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Government_Admin, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Government_Admin);
+}
+
+@Html.LabelFor(x => x, "Educational_Small")
+@if (Model == BloodDonors.Models.StructureType.Educational_Small)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Educational_Small, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Educational_Small);
+}
+
+@Html.LabelFor(x => x, "Public_Gathering_Facility_Small")
+@if (Model == BloodDonors.Models.StructureType.Public_Gathering_Facility_Small)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Public_Gathering_Facility_Small, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Public_Gathering_Facility_Small);
+}
+
+@Html.LabelFor(x => x, "Public_Gathering_Facility_Large")
+@if (Model == BloodDonors.Models.StructureType.Public_Gathering_Facility_Large)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Public_Gathering_Facility_Large, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Public_Gathering_Facility_Large);
+}
+
+@Html.LabelFor(x => x, "Church_Cemetery_Small")
+@if (Model == BloodDonors.Models.StructureType.Church_Cemetery_Small)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Church_Cemetery_Small, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Church_Cemetery_Small);
+}
+
+@Html.LabelFor(x => x, "Church_Cemetery_Large")
+@if (Model == BloodDonors.Models.StructureType.Church_Cemetery_Large)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Church_Cemetery_Large, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Church_Cemetery_Large);
+}
+
+@Html.LabelFor(x => x, "Canteen_Small")
+@if (Model == BloodDonors.Models.StructureType.Canteen_Small)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Canteen_Small, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Canteen_Small);
+}
+
+@Html.LabelFor(x => x, "Canteen_Large")
+@if (Model == BloodDonors.Models.StructureType.Canteen_Large)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Canteen_Large, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Canteen_Large);
+}
+
+@Html.LabelFor(x => x, "Commissary")
+@if (Model == BloodDonors.Models.StructureType.Commissary)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Commissary, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Commissary);
+}
+
+@Html.LabelFor(x => x, "Office_Small")
+@if (Model == BloodDonors.Models.StructureType.Office_Small)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Office_Small, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Office_Small);
+}
+
+@Html.LabelFor(x => x, "Custodial_Small")
+@if (Model == BloodDonors.Models.StructureType.Custodial_Small)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Custodial_Small, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Custodial_Small);
+}
+
+@Html.LabelFor(x => x, "Custodial_Medium")
+@if (Model == BloodDonors.Models.StructureType.Custodial_Medium)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Custodial_Medium, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Custodial_Medium);
+}
+
+@Html.LabelFor(x => x, "Custodial_Large")
+@if (Model == BloodDonors.Models.StructureType.Custodial_Large)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Custodial_Large, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Custodial_Large);
+}
+
+@Html.LabelFor(x => x, "Hospital")
+@if (Model == BloodDonors.Models.StructureType.Hospital)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Hospital, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Hospital);
+}
+
+@Html.LabelFor(x => x, "Brig")
+@if (Model == BloodDonors.Models.StructureType.Brig)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Brig, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Brig);
+}
+
+@Html.LabelFor(x => x, "Power_Plant")
+@if (Model == BloodDonors.Models.StructureType.Power_Plant)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Power_Plant, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Power_Plant);
+}
+
+@Html.LabelFor(x => x, "Nuclear_Power_Plant")
+@if (Model == BloodDonors.Models.StructureType.Nuclear_Power_Plant)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Nuclear_Power_Plant, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Nuclear_Power_Plant);
+}
+
+@Html.LabelFor(x => x, "Water_Treatment_Plant")
+@if (Model == BloodDonors.Models.StructureType.Water_Treatment_Plant)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Water_Treatment_Plant, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Water_Treatment_Plant);
+}
+
+@Html.LabelFor(x => x, "Wastewater_Treatment_Plant")
+@if (Model == BloodDonors.Models.StructureType.Wastewater_Treatment_Plant)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Wastewater_Treatment_Plant, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Wastewater_Treatment_Plant);
+}
+
+@Html.LabelFor(x => x, "Television_Comm_Station")
+@if (Model == BloodDonors.Models.StructureType.Television_Comm_Station)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Television_Comm_Station, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Television_Comm_Station);
+}
+
+@Html.LabelFor(x => x, "Cell_Tower")
+@if (Model == BloodDonors.Models.StructureType.Cell_Tower)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Cell_Tower, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Cell_Tower);
+}
+
+@Html.LabelFor(x => x, "Manufacturing_LowHazard")
+@if (Model == BloodDonors.Models.StructureType.Manufacturing_LowHazard)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Manufacturing_LowHazard, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Manufacturing_LowHazard);
+}
+
+@Html.LabelFor(x => x, "Manufacturing_Moderate_Hazard")
+@if (Model == BloodDonors.Models.StructureType.Manufacturing_Moderate_Hazard)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Manufacturing_Moderate_Hazard, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Manufacturing_Moderate_Hazard);
+}
+
+@Html.LabelFor(x => x, "Manufacturing_High_Hazard")
+@if (Model == BloodDonors.Models.StructureType.Manufacturing_High_Hazard)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Manufacturing_High_Hazard, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Manufacturing_High_Hazard);
+}
+
+@Html.LabelFor(x => x, "Utility_Moderate_Hazard")
+@if (Model == BloodDonors.Models.StructureType.Utility_Moderate_Hazard)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Utility_Moderate_Hazard, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Utility_Moderate_Hazard);
+}
+
+@Html.LabelFor(x => x, "Storage_Small")
+@if (Model == BloodDonors.Models.StructureType.Storage_Small)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Storage_Small, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Storage_Small);
+}
+
+@Html.LabelFor(x => x, "Storage_Large")
+@if (Model == BloodDonors.Models.StructureType.Storage_Large)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Storage_Large, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Storage_Large);
+}
+
+@Html.LabelFor(x => x, "Storage_High_Hazard")
+@if (Model == BloodDonors.Models.StructureType.Storage_High_Hazard)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Storage_High_Hazard, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Storage_High_Hazard);
+}
+
+@Html.LabelFor(x => x, "Warehouse_Low_Hazard")
+@if (Model == BloodDonors.Models.StructureType.Warehouse_Low_Hazard)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Warehouse_Low_Hazard, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Warehouse_Low_Hazard);
+}
+
+@Html.LabelFor(x => x, "Warehouse_Moderate_Hazard")
+@if (Model == BloodDonors.Models.StructureType.Warehouse_Moderate_Hazard)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Warehouse_Moderate_Hazard, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Warehouse_Moderate_Hazard);
+}
+
+@Html.LabelFor(x => x, "Warehouse_High_Hazard")
+@if (Model == BloodDonors.Models.StructureType.Warehouse_High_Hazard)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Warehouse_High_Hazard, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Warehouse_High_Hazard);
+}
+
+@Html.LabelFor(x => x, "Hangar")
+@if (Model == BloodDonors.Models.StructureType.Hangar)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Hangar, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Hangar);
+}
+
+@Html.LabelFor(x => x, "Ammunition_Depot")
+@if (Model == BloodDonors.Models.StructureType.Ammunition_Depot)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Ammunition_Depot, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Ammunition_Depot);
+}
+
+@Html.LabelFor(x => x, "Multiple_Use")
+@if (Model == BloodDonors.Models.StructureType.Multiple_Use)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Multiple_Use, new { @checked = "checked" });
+}
+else {
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Multiple_Use);
+}
+
+
+
+
+
+
+
+@*@Html.LabelFor(x => x, "Linear")
+@if (Model == BloodDonors.Models.StructureType.Linear)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Linear, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.StructureType.Linear);
+}*@

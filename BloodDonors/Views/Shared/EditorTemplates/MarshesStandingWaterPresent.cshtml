@@ -1,0 +1,21 @@
+﻿@model BloodDonors.Models.MarshesStandingWaterPresent
+
+@Html.LabelFor(x => x, "Marshes and/or Standing Water Present")
+@if (Model == BloodDonors.Models.MarshesStandingWaterPresent.MarshesStandingWaterPresentPresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.MarshesStandingWaterPresent.MarshesStandingWaterPresentPresent, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.MarshesStandingWaterPresent.MarshesStandingWaterPresentPresent);
+}
+
+@Html.LabelFor(x => x, "Marshes and/or Standing Water Not Present")
+@if (Model == BloodDonors.Models.MarshesStandingWaterPresent.MarshesStandingWaterPresentNotPresent)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.MarshesStandingWaterPresent.MarshesStandingWaterPresentNotPresent, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.MarshesStandingWaterPresent.MarshesStandingWaterPresentNotPresent);
+}

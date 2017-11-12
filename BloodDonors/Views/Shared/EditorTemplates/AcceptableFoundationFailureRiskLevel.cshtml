@@ -1,0 +1,31 @@
+﻿@model BloodDonors.Models.AcceptableFoundationFailureRiskLevel
+
+@Html.LabelFor(x => x, "High")
+@if (Model == BloodDonors.Models.AcceptableFoundationFailureRiskLevel.High)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.AcceptableFoundationFailureRiskLevel.High, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.AcceptableFoundationFailureRiskLevel.High);
+}
+
+@Html.LabelFor(x => x, "Medium")
+@if (Model == BloodDonors.Models.AcceptableFoundationFailureRiskLevel.Med)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.AcceptableFoundationFailureRiskLevel.Med, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.AcceptableFoundationFailureRiskLevel.Med);
+}
+
+@Html.LabelFor(x => x, "Low")
+@if (Model == BloodDonors.Models.AcceptableFoundationFailureRiskLevel.Low)
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.AcceptableFoundationFailureRiskLevel.Low, new { @checked = "checked" });
+}
+else
+{
+    @Html.RadioButtonFor(x => x, (int)BloodDonors.Models.AcceptableFoundationFailureRiskLevel.Low);
+}
